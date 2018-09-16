@@ -5,8 +5,8 @@
 
 int main()
 {
-    HALFpSim hal;
-    FpInputHandler<HALFpSim> fpInputs(hal);
+    HALFpSim halGrpc("localhost:50051");
+    FpInputHandler<HALFpSim> fpInputs(halGrpc);
     FpOutputHandler fpOutputs;
     return 0;
 }
