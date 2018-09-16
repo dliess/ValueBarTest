@@ -7,6 +7,6 @@ int main()
 {
     HALFpSim hal;
     FpInputHandler<HALFpSim> fpInputs(hal);
-    FpInputOutput fpOutputs;
+    FpOutputHandler fpOutputs;
     return 0;
 }
