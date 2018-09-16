@@ -1,0 +1,3 @@
+[submodule "FrontPanelIO"]
+	path = FrontPanelIO
+	url = https://github.com/dliess/FrontPanelIO.git
