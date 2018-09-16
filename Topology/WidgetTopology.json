@@ -1,0 +1,19 @@
+[
+   {
+      "Dimension": null, 
+      "WidgetType": [
+         "Display"
+      ], 
+      "Label": "SSD1331Display"
+   }, 
+   {
+      "Dimension": [
+         2
+      ], 
+      "WidgetType": [
+         "Encoder", 
+         "Button"
+      ], 
+      "Label": "Encoder"
+   }
+]
