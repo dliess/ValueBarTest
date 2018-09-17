@@ -1,14 +1,7 @@
 #include "ValueBarDrawer.h"
-#include <SPI.h>
-#include <Adafruit_GFX.h>
-#include <Adafruit_SSD1331.h>
+#include "HALFpSim.h"
 
-uint8_t swapNibbles(uint8_t val)
-{
-   uint8_t data = val >> 4;
-   data |= ((val & 0x0F) << 4);
-   return data;;
-}
+const WidgetTypes::Display::ColorRGB ValueBarDrawer::ClearColor = {0,0,0};
 
 
 ValueBarDrawer::ValueBarDrawer(uint8_t x,
@@ -17,10 +10,11 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
                    uint8_t h,
                    int16_t valueRangeMin,
                    int16_t valueRangeMax,
-                   uint16_t frameColor,
-                   uint16_t barColorBegin,
-                   uint16_t barColorEnd,
-                   Adafruit_SSD1331 &display) : m_frame(x, y, w, h),
+                   WidgetTypes::Display::ColorRGB frameColor,
+                   WidgetTypes::Display::ColorRGB barColorBegin,
+                   WidgetTypes::Display::ColorRGB barColorEnd,
+                   HALFpSim &display,
+                   const DisplayWidget& widget) : m_frame(x, y, w, h),
                                                 m_bar(x + 1, y + 1, w - 2, h - 2),
                                                 m_valueRangeMin(valueRangeMin),
                                                 m_valueRangeMax(valueRangeMax),
@@ -28,6 +22,7 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
                                                 m_barColorBegin(barColorBegin),
                                                 m_barColorEnd(barColorEnd),
                                                 m_rDisplay(display),
+                                                m_widget(widget),
                                                 m_valuePosXLast(0),
                                                 m_modulatedValuePosXLast(0)
 {
@@ -35,32 +30,36 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
 
 void ValueBarDrawer::initialDraw()
 {
-    m_rDisplay.drawRect(m_frame.x, m_frame.y, m_frame.w, m_frame.h, m_frameColor);
+    m_rDisplay.displayDrawRectangle(m_widget,
+                                    WidgetTypes::Display::Coord(m_frame.x, m_frame.y),
+                                    m_frame.w,
+                                    m_frame.h,
+                                    m_frameColor);
 }
 
 void ValueBarDrawer::draw(int16_t value, int16_t modulation)
 {
-    value = max(m_valueRangeMin, value);
-    value = min(m_valueRangeMax, value);
-    uint8_t valuePosX = map(value, m_valueRangeMin, m_valueRangeMax, 0, m_bar.w - 1);
+    value = std::max(m_valueRangeMin, value);
+    value = std::min(m_valueRangeMax, value);
+    uint8_t valuePosX = map<int16_t>(value, m_valueRangeMin, m_valueRangeMax, 0, m_bar.w - 1);
 
     int16_t modulatedValue = value + modulation;
-    modulatedValue = max(m_valueRangeMin, modulatedValue);
-    modulatedValue = min(m_valueRangeMax, modulatedValue);
-    uint8_t modulatedValuePosX = map(modulatedValue, m_valueRangeMin, m_valueRangeMax, 0, m_bar.w - 1);
+    modulatedValue = std::max(m_valueRangeMin, modulatedValue);
+    modulatedValue = std::min(m_valueRangeMax, modulatedValue);
+    uint8_t modulatedValuePosX = map<int16_t>(modulatedValue, m_valueRangeMin, m_valueRangeMax, 0, m_bar.w - 1);
 
     if (modulatedValuePosX > m_modulatedValuePosXLast)
     {
         for (int i = m_modulatedValuePosXLast; i <= modulatedValuePosX; ++i)
         {
             const int Xpos = m_bar.x + i;
-            uint8_t red = map(i, 0, m_bar.w, m_barColorBegin.red, m_barColorEnd.red);
-            uint8_t green = map(i, 0, m_bar.w, m_barColorBegin.green, m_barColorEnd.green);
-            uint8_t blue = map(i, 0, m_bar.w, m_barColorBegin.blue, m_barColorEnd.blue);
-
-            uint16_t color = Adafruit_SSD1331::Color565(swapNibbles(red >> 1), swapNibbles(green >> 2), swapNibbles(blue >> 1));
-
-            m_rDisplay.drawLine(Xpos, m_bar.y, Xpos, m_bar.y + m_bar.h - 1, color);
+            uint8_t red = map<int16_t>(i, 0, m_bar.w, m_barColorBegin.r, m_barColorEnd.r);
+            uint8_t green = map<int16_t>(i, 0, m_bar.w, m_barColorBegin.g, m_barColorEnd.g);
+            uint8_t blue = map<int16_t>(i, 0, m_bar.w, m_barColorBegin.b, m_barColorEnd.b);
+            m_rDisplay.displayDrawLine( m_widget,
+                                        WidgetTypes::Display::Coord( Xpos, m_bar.y ),
+                                        WidgetTypes::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
+                                        {red, green, blue});
         }
     }
     else if (modulatedValuePosX < m_modulatedValuePosXLast)
@@ -68,7 +67,10 @@ void ValueBarDrawer::draw(int16_t value, int16_t modulation)
         for (int i = m_modulatedValuePosXLast; i > modulatedValuePosX; --i)
         {
             const int Xpos = m_bar.x + i;
-            m_rDisplay.drawLine(Xpos, m_bar.y, Xpos, m_bar.y + m_bar.h - 1, ClearColor);
+            m_rDisplay.displayDrawLine( m_widget,
+                                        WidgetTypes::Display::Coord( Xpos, m_bar.y ),
+                                        WidgetTypes::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
+                                        ClearColor );
         }
     }
 
@@ -76,10 +78,22 @@ void ValueBarDrawer::draw(int16_t value, int16_t modulation)
     {
         const int XposNew = m_bar.x + valuePosX;
         const int XposOld = m_bar.x + m_valuePosXLast;
-        m_rDisplay.drawFastVLine(XposOld, m_frame.y - MidLineHeight, MidLineHeight, ClearColor);
-        m_rDisplay.drawFastVLine(XposNew, m_frame.y - MidLineHeight, MidLineHeight, m_frameColor);
-        m_rDisplay.drawFastVLine(XposOld, m_frame.y + m_frame.h, MidLineHeight, ClearColor);
-        m_rDisplay.drawFastVLine(XposNew, m_frame.y + m_frame.h, MidLineHeight, m_frameColor);
+        m_rDisplay.displayDrawVLine(m_widget,
+                                    WidgetTypes::Display::Coord( XposOld, m_frame.y - MidLineHeight),
+                                    MidLineHeight,
+                                    ClearColor);
+        m_rDisplay.displayDrawVLine(m_widget,
+                                    WidgetTypes::Display::Coord( XposNew, m_frame.y - MidLineHeight),
+                                    MidLineHeight,
+                                    m_frameColor);
+        m_rDisplay.displayDrawVLine(m_widget, 
+                                    WidgetTypes::Display::Coord(XposOld, m_frame.y + m_frame.h),
+                                    MidLineHeight,
+                                    ClearColor);
+        m_rDisplay.displayDrawVLine(m_widget,
+                                    WidgetTypes::Display::Coord(XposNew, m_frame.y + m_frame.h),
+                                    MidLineHeight,
+                                    m_frameColor);
     }
 
     m_modulatedValuePosXLast = modulatedValuePosX;

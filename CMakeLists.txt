@@ -6,7 +6,9 @@ project(ValueBarTest C CXX)
 
 add_subdirectory(FrontPanelIO/c++)
 
-add_executable(valueBarTest main.cpp)
+add_executable(valueBarTest
+    main.cpp
+    ValueBarDrawer.cpp)
 target_link_libraries(valueBarTest 
     HALFpSim
     FPIOHandler
