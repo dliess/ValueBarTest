@@ -5,7 +5,7 @@
 #include "WidgetTopology_Spec.h"
 #include "Vector2D.h"
 #include "ValueBarDrawer.h"
-#include "ValueDrawer.h"
+#include "TextField.h"
 #include "EncCallbacks.h"
 #include "DisplayCb.h"
 
@@ -26,16 +26,17 @@ int main()
 
     DisplayWidget dispWidget(WidgetTopology<WidgetTypes::Display>::WidgetId::SSD1331Display, Vec2D(0,0));
     ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {50,50,50}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
-    ValueDrawer valueDrawer(halGrpc,
-                            dispWidget,
-                            WidgetTypes::Display::Coord(30, 2),
-                            30,
-                            30,
-                            1,
-                            {255,255,255});
+    TextField textField(halGrpc,
+                        dispWidget,
+                        WidgetTypes::Display::Coord(30, 2),
+                        10,
+                        10,
+                        WidgetTypes::Display::FontId::FreeMonoBold,
+                        WidgetTypes::Display::FontSize::Pix9,
+                        {255,255,255});
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
 
-    DisplayCallback displayCbHandler(valueBarDrawer, valueDrawer, encVal, modVal);
+    DisplayCallback displayCbHandler(valueBarDrawer, textField, encVal, modVal);
     fpInputs.registerEncCb(encCbHandler, EncWidget(EncId::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL)));
     fpOutputs.registerDisplayCb(displayCbHandler, dispWidget);
 

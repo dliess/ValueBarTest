@@ -9,11 +9,11 @@ class DisplayCallback : public DisaplayRenderCbIf
 {
 public:
     DisplayCallback(ValueBarDrawer& valueBarDrawer,
-                    ValueDrawer& valueDrawer,
+                    TextField& textField,
                     int16_t& rValue,
                     int16_t& rModulation) :
         m_rValueBarDrawer(valueBarDrawer),
-        m_rValueDrawer(valueDrawer),
+        m_rTextField(textField),
         m_rValue(rValue),
         m_rModulation(rModulation),
         m_lastValue(-1)
@@ -27,13 +27,13 @@ public:
         if(m_lastValue != m_rValue)
         {
             m_rValueBarDrawer.draw(m_rValue, m_rModulation);
-            m_rValueDrawer.draw(m_rValue);
+            m_rTextField.draw(m_rValue);
             m_lastValue = m_rValue;
         }
     }
 private:
     ValueBarDrawer& m_rValueBarDrawer;
-    ValueDrawer& m_rValueDrawer;
+    TextField& m_rTextField;
     int16_t& m_rValue;
     int16_t& m_rModulation;
     int16_t  m_lastValue;

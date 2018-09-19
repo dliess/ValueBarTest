@@ -7,16 +7,17 @@
 
 class HALFpSim;
 
-class ValueDrawer
+class TextField
 {
 public:
-    ValueDrawer(HALFpSim&                             rDisplay,
+    TextField(  HALFpSim&                             rDisplay,
                 const DisplayWidget&                  widget,
                 const WidgetTypes::Display::Coord&    upLeftPos,
                 uint16_t                              w,
                 uint16_t                              h,
                 const WidgetTypes::Display::FontId&   fontId,
-                const WidgetTypes::Display::ColorRGB& color);
+                const WidgetTypes::Display::FontSize& fontSize,
+                const WidgetTypes::Display::ColorRGB& color  );
 
     void draw(int32_t value);
 
@@ -27,6 +28,7 @@ private:
     uint16_t                        m_w;
     uint16_t                        m_h;
     WidgetTypes::Display::FontId    m_fontId;
+    WidgetTypes::Display::FontSize  m_fontSize;
     WidgetTypes::Display::ColorRGB  m_color;
 };
 
