@@ -1,18 +1,17 @@
 #include "HALFpSim.h"
 #include "FpInputHandler.h"
 #include "FpOutputHandler.h"
-
-#include <iostream>
-#include <unistd.h> // usleep()
-
-//#include "CallbackIf_Spec.h"
-//#include "Widget_Spec.h"
+#include "CallbackIf_Spec.h"
 #include "WidgetTopology_Spec.h"
 #include "Vector2D.h"
 #include "ValueBarDrawer.h"
-#include <cmath>
+#include "ValueDrawer.h"
 #include "EncCallbacks.h"
 #include "DisplayCb.h"
+
+#include <iostream>
+#include <unistd.h> // usleep()
+#include <cmath>
 
 int main()
 {
@@ -20,22 +19,29 @@ int main()
     FpInputHandler<HALFpSim> fpInputs(halGrpc);
     FpOutputHandler fpOutputs;
 
-    int16_t  encVal = 50;
-    int16_t  modVal = 0;
+    int16_t encVal = 50;
+    int16_t modVal = 0;
     int16_t modAmplitude = 0;
     int16_t modFrequencyHz = 1;
 
     DisplayWidget dispWidget(WidgetTopology<WidgetTypes::Display>::WidgetId::SSD1331Display, Vec2D(0,0));
-    ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {255,255,255}, {55, 0, 0}, {0,0,255}, halGrpc, dispWidget);
+    ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {50,50,50}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
+    ValueDrawer valueDrawer(halGrpc,
+                            dispWidget,
+                            WidgetTypes::Display::Coord(30, 2),
+                            30,
+                            30,
+                            1,
+                            {255,255,255});
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
 
-    DisplayCallback displayCbHandler(valueBarDrawer, encVal, modVal);
+    DisplayCallback displayCbHandler(valueBarDrawer, valueDrawer, encVal, modVal);
     fpInputs.registerEncCb(encCbHandler, EncWidget(EncId::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL)));
     fpOutputs.registerDisplayCb(displayCbHandler, dispWidget);
 
   //  std::thread t1(call_from_thread);
     int32_t t = 0;
-    uint32_t SleepUs = 20000;
+    const uint32_t SleepUs = 20000;
     while(true)
     {
         fpInputs.poll();

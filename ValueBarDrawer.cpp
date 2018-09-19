@@ -31,6 +31,12 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
 void ValueBarDrawer::initialDraw()
 {
     m_rDisplay.displayDrawRectangle(m_widget,
+                                    WidgetTypes::Display::Coord(m_frame.x, m_frame.y-6),
+                                    m_frame.w,
+                                    m_frame.h + 12,
+                                    {0,0,0},
+                                    true);
+    m_rDisplay.displayDrawRectangle(m_widget,
                                     WidgetTypes::Display::Coord(m_frame.x, m_frame.y),
                                     m_frame.w,
                                     m_frame.h,

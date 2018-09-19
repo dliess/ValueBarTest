@@ -8,7 +8,8 @@ add_subdirectory(FrontPanelIO/c++)
 
 add_executable(valueBarTest
     main.cpp
-    ValueBarDrawer.cpp)
+    ValueBarDrawer.cpp
+    ValueDrawer.cpp)
 target_link_libraries(valueBarTest 
     HALFpSim
     FPIOHandler
