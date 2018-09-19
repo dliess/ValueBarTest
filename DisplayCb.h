@@ -27,7 +27,7 @@ public:
         if(m_lastValue != m_rValue)
         {
             m_rValueBarDrawer.draw(m_rValue, m_rModulation);
-            m_rTextField.draw(m_rValue);
+            m_rTextField.draw(m_rValue, {100, 0, static_cast<uint8_t>(m_rValue)});
             m_lastValue = m_rValue;
         }
     }

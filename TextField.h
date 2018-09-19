@@ -20,6 +20,8 @@ public:
                 const WidgetTypes::Display::ColorRGB& color  );
 
     void draw(int32_t value);
+    void draw(int32_t value, const WidgetTypes::Display::ColorRGB& color);
+
 
 private:
     HALFpSim&                       m_rDisplay;
@@ -30,6 +32,9 @@ private:
     WidgetTypes::Display::FontId    m_fontId;
     WidgetTypes::Display::FontSize  m_fontSize;
     WidgetTypes::Display::ColorRGB  m_color;
+
+    WidgetTypes::Display::Coord     m_lastStrPos;
+    WidgetTypes::Display::Size2D    m_lastStrSize;
 };
 
 #endif

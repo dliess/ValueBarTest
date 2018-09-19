@@ -28,11 +28,11 @@ int main()
     ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {50,50,50}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
     TextField textField(halGrpc,
                         dispWidget,
-                        WidgetTypes::Display::Coord(30, 2),
-                        10,
-                        10,
+                        WidgetTypes::Display::Coord(35, 2),
+                        40,
+                        12,
                         WidgetTypes::Display::FontId::FreeMonoBold,
-                        WidgetTypes::Display::FontSize::Pix9,
+                        WidgetTypes::Display::FontSize::Pix12,
                         {255,255,255});
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
 

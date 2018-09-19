@@ -27,7 +27,7 @@ public:
                 if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(BtnId::Encoder, Vec2D(0,0))) )
                 {
                     m_rEncVal += incr;
-                    stayInRange<int16_t>(m_rEncVal, 0, 256);
+                    stayInRange<int16_t>(m_rEncVal, 0, 255);
                 }
                 break;
             case 1:
