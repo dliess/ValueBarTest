@@ -21,6 +21,8 @@ public:
     void revealed(const DisplayWidget& widget)
     {
         m_rValueBarDrawer.initialDraw();
+        m_rTextField.clear();
+        m_rTextField.drawFieldBorder({255,255,255});
     } 
     void render(const DisplayWidget& widget)
     {

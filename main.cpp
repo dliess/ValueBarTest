@@ -25,15 +25,16 @@ int main()
     int16_t modFrequencyHz = 1;
 
     DisplayWidget dispWidget(WidgetTopology<WidgetTypes::Display>::WidgetId::SSD1331Display, Vec2D(0,0));
-    ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {50,50,50}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
+    ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {255,255,255}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
     TextField textField(halGrpc,
                         dispWidget,
-                        WidgetTypes::Display::Coord(35, 2),
-                        40,
-                        12,
+                        WidgetTypes::Display::Coord(30, 2),
+                        WidgetTypes::Display::Size2D(40, 20),
                         WidgetTypes::Display::FontId::FreeMonoBold,
-                        WidgetTypes::Display::FontSize::Pix12,
-                        {255,255,255});
+                        WidgetTypes::Display::FontSize::Pix18,
+                        {255,255,255},
+                        TextField::HPlacement::AlignCenter,
+                        TextField::VPlacement::AlignCenter);
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
 
     DisplayCallback displayCbHandler(valueBarDrawer, textField, encVal, modVal);
