@@ -5,6 +5,7 @@
 #include "CallbackIf_Spec.h"
 #include "FpInputHandler.h"
 #include "HALFpSim.h"
+#include "FpWidgetIn_Spec.h"
 #include <cstdint>
 
 class EncCbHandler : public EncCallback
@@ -19,19 +20,19 @@ public:
         m_rModAmplitude(rModAmplitude),
         m_rModFrequencyHz(rModFrequencyHz)
         {}
-    virtual void valueChangedCb(const  WidgetTypes::Encoder::ValueType& incr, const EncWidget& widget)
+    virtual void valueChangedCb(const  fpw::Encoder::ValueType& incr, const EncWidget& widget)
     {
         switch(widget.coord.x)
         {
             case 0:
-                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(BtnId::Encoder, Vec2D(0,0))) )
+                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(0,0))) )
                 {
                     m_rEncVal += incr;
                     stayInRange<int16_t>(m_rEncVal, 0, 255);
                 }
                 break;
             case 1:
-                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(BtnId::Encoder, Vec2D(1,0))) )
+                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(1,0))) )
                 {
                     m_rModAmplitude += incr;
                     stayInRange<int16_t>(m_rModAmplitude, 0, 50);

@@ -5,11 +5,11 @@
 
 TextField::TextField(   HALFpSim&                             rDisplay,
                         const DisplayWidget&                  widget,
-                        const WidgetTypes::Display::Coord&    upLeftPos,
-                        const WidgetTypes::Display::Size2D&   size,
-                        const WidgetTypes::Display::FontId&   fontId,
-                        const WidgetTypes::Display::FontSize& fontSize,
-                        const WidgetTypes::Display::ColorRGB& color,
+                        const fpw::Display::Coord&    upLeftPos,
+                        const fpw::Display::Size2D&   size,
+                        const fpw::Display::FontId&   fontId,
+                        const fpw::Display::FontSize& fontSize,
+                        const fpw::Display::ColorRGB& color,
                         HPlacement                            hPlacement,
                         VPlacement                            vPlacement  ):
     m_rDisplay(rDisplay),
@@ -30,14 +30,14 @@ void TextField::draw(int32_t value)
     draw(value, m_color);
 }
 
-void TextField::draw(int32_t value, const WidgetTypes::Display::ColorRGB& color)
+void TextField::draw(int32_t value, const fpw::Display::ColorRGB& color)
 {
     clearPrev();
     m_rDisplay.displaySetFont(m_widget, m_fontId, m_fontSize);
     char strBuf[64];
     snprintf(strBuf, sizeof(strBuf), "%d", value);
-    WidgetTypes::Display::Size2D strSize = m_rDisplay.displayGetTextSize(m_widget, strBuf);
-    WidgetTypes::Display::Coord strPos;
+    fpw::Display::Size2D strSize = m_rDisplay.displayGetTextSize(m_widget, strBuf);
+    fpw::Display::Coord strPos;
     switch(m_hPlacement)
     {
         case HPlacement::AlignLeft:
@@ -73,26 +73,26 @@ void TextField::draw(int32_t value, const WidgetTypes::Display::ColorRGB& color)
 void TextField::clearPrev()
 {
     m_rDisplay.displayDrawRectangle(m_widget,
-                                    WidgetTypes::Display::Coord(m_lastStrPos),
-                                    WidgetTypes::Display::Size2D(m_lastStrSize),
+                                    fpw::Display::Coord(m_lastStrPos),
+                                    fpw::Display::Size2D(m_lastStrSize),
                                     {0,0,0},
                                     true);
 }
 
-void TextField::drawFieldBorder(const WidgetTypes::Display::ColorRGB& color)
+void TextField::drawFieldBorder(const fpw::Display::ColorRGB& color)
 {
     m_rDisplay.displayDrawRectangle(m_widget,
-                                    WidgetTypes::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                    WidgetTypes::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+                                    fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                    fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
                                     color,
                                     false);
 }
 
-void TextField::clear(const WidgetTypes::Display::ColorRGB& clearColor)
+void TextField::clear(const fpw::Display::ColorRGB& clearColor)
 {
     m_rDisplay.displayDrawRectangle(m_widget,
-                                    WidgetTypes::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                    WidgetTypes::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+                                    fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                    fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
                                     clearColor,
                                     true);
 }

@@ -2,7 +2,6 @@
 #include "FpInputHandler.h"
 #include "FpOutputHandler.h"
 #include "CallbackIf_Spec.h"
-#include "WidgetTopology_Spec.h"
 #include "Vector2D.h"
 #include "ValueBarDrawer.h"
 #include "TextField.h"
@@ -24,21 +23,22 @@ int main()
     int16_t modAmplitude = 0;
     int16_t modFrequencyHz = 1;
 
-    DisplayWidget dispWidget(WidgetTopology<WidgetTypes::Display>::WidgetId::SSD1331Display, Vec2D(0,0));
+    DisplayWidget dispWidget(fpw::Display::Id::SSD1331Display, Vec2D(0,0));
     ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {255,255,255}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
     TextField textField(halGrpc,
                         dispWidget,
-                        WidgetTypes::Display::Coord(30, 2),
-                        WidgetTypes::Display::Size2D(40, 20),
-                        WidgetTypes::Display::FontId::FreeMonoBold,
-                        WidgetTypes::Display::FontSize::Pix18,
+                        fpw::Display::Coord(30, 2),
+                        fpw::Display::Size2D(40, 20),
+                        fpw::Display::FontId::FreeMonoBold,
+                        fpw::Display::FontSize::Pix18,
                         {255,255,255},
                         TextField::HPlacement::AlignCenter,
                         TextField::VPlacement::AlignCenter);
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
 
     DisplayCallback displayCbHandler(valueBarDrawer, textField, encVal, modVal);
-    fpInputs.registerEncCb(encCbHandler, EncWidget(EncId::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL)));
+    EncWidget encWidget(fpw::Encoder::Id::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL));
+    fpInputs.registerEncCb(encCbHandler, encWidget);
     fpOutputs.registerDisplayCb(displayCbHandler, dispWidget);
 
   //  std::thread t1(call_from_thread);

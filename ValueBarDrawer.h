@@ -2,8 +2,7 @@
 #define _VALUE_BAR_DRAWER_H
 
 #include <cstdint>
-#include "Widget_Spec.h"
-#include "WidgetTypes.h"
+#include "FpWidgetOut_Spec.h"
 
 class HALFpSim;
 struct Rect
@@ -22,9 +21,9 @@ class ValueBarDrawer
              uint8_t h,
              int16_t valueRangeMin,
              int16_t valueRangeMax,
-             WidgetTypes::Display::ColorRGB frameColor,
-             WidgetTypes::Display::ColorRGB barColorBegin,
-             WidgetTypes::Display::ColorRGB barColorEnd,
+             fpw::Display::ColorRGB frameColor,
+             fpw::Display::ColorRGB barColorBegin,
+             fpw::Display::ColorRGB barColorEnd,
              HALFpSim &display,
              const DisplayWidget& widget);
     void initialDraw();
@@ -35,13 +34,13 @@ class ValueBarDrawer
     Rect m_bar;
     int16_t m_valueRangeMin;
     int16_t m_valueRangeMax;
-    WidgetTypes::Display::ColorRGB m_frameColor;
+    fpw::Display::ColorRGB m_frameColor;
     
-    WidgetTypes::Display::ColorRGB m_barColorBegin;
-    WidgetTypes::Display::ColorRGB m_barColorEnd;
+    fpw::Display::ColorRGB m_barColorBegin;
+    fpw::Display::ColorRGB m_barColorEnd;
     HALFpSim &m_rDisplay;
     DisplayWidget m_widget;
-    static const WidgetTypes::Display::ColorRGB ClearColor;
+    static const fpw::Display::ColorRGB ClearColor;
     static const uint16_t MidLineHeight = 4;
     uint8_t m_valuePosXLast;
     uint8_t m_modulatedValuePosXLast;

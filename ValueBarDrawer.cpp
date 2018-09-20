@@ -1,7 +1,7 @@
 #include "ValueBarDrawer.h"
 #include "HALFpSim.h"
 
-const WidgetTypes::Display::ColorRGB ValueBarDrawer::ClearColor = {0,0,0};
+const fpw::Display::ColorRGB ValueBarDrawer::ClearColor = {0,0,0};
 
 
 ValueBarDrawer::ValueBarDrawer(uint8_t x,
@@ -10,9 +10,9 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
                    uint8_t h,
                    int16_t valueRangeMin,
                    int16_t valueRangeMax,
-                   WidgetTypes::Display::ColorRGB frameColor,
-                   WidgetTypes::Display::ColorRGB barColorBegin,
-                   WidgetTypes::Display::ColorRGB barColorEnd,
+                   fpw::Display::ColorRGB frameColor,
+                   fpw::Display::ColorRGB barColorBegin,
+                   fpw::Display::ColorRGB barColorEnd,
                    HALFpSim &display,
                    const DisplayWidget& widget) : m_frame(x, y, w, h),
                                                 m_bar(x + 1, y + 1, w - 2, h - 2),
@@ -31,13 +31,13 @@ ValueBarDrawer::ValueBarDrawer(uint8_t x,
 void ValueBarDrawer::initialDraw()
 {
     m_rDisplay.displayDrawRectangle(m_widget,
-                                    WidgetTypes::Display::Coord(m_frame.x, m_frame.y-6),
-                                    WidgetTypes::Display::Size2D(m_frame.w, m_frame.h + 12),
+                                    fpw::Display::Coord(m_frame.x, m_frame.y-6),
+                                    fpw::Display::Size2D(m_frame.w, m_frame.h + 12),
                                     {0,0,0},
                                     true);
     m_rDisplay.displayDrawRectangle(m_widget,
-                                    WidgetTypes::Display::Coord(m_frame.x, m_frame.y),
-                                    WidgetTypes::Display::Size2D(m_frame.w, m_frame.h),
+                                    fpw::Display::Coord(m_frame.x, m_frame.y),
+                                    fpw::Display::Size2D(m_frame.w, m_frame.h),
                                     m_frameColor);
 }
 
@@ -61,8 +61,8 @@ void ValueBarDrawer::draw(int16_t value, int16_t modulation)
             uint8_t green = map<int16_t>(i, 0, m_bar.w, m_barColorBegin.g, m_barColorEnd.g);
             uint8_t blue = map<int16_t>(i, 0, m_bar.w, m_barColorBegin.b, m_barColorEnd.b);
             m_rDisplay.displayDrawLine( m_widget,
-                                        WidgetTypes::Display::Coord( Xpos, m_bar.y ),
-                                        WidgetTypes::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
+                                        fpw::Display::Coord( Xpos, m_bar.y ),
+                                        fpw::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
                                         {red, green, blue});
         }
     }
@@ -72,8 +72,8 @@ void ValueBarDrawer::draw(int16_t value, int16_t modulation)
         {
             const int Xpos = m_bar.x + i;
             m_rDisplay.displayDrawLine( m_widget,
-                                        WidgetTypes::Display::Coord( Xpos, m_bar.y ),
-                                        WidgetTypes::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
+                                        fpw::Display::Coord( Xpos, m_bar.y ),
+                                        fpw::Display::Coord( Xpos, m_bar.y + m_bar.h - 1 ),
                                         ClearColor );
         }
     }
@@ -83,19 +83,19 @@ void ValueBarDrawer::draw(int16_t value, int16_t modulation)
         const int XposNew = m_bar.x + valuePosX;
         const int XposOld = m_bar.x + m_valuePosXLast;
         m_rDisplay.displayDrawVLine(m_widget,
-                                    WidgetTypes::Display::Coord( XposOld, m_frame.y - MidLineHeight),
+                                    fpw::Display::Coord( XposOld, m_frame.y - MidLineHeight),
                                     MidLineHeight,
                                     ClearColor);
         m_rDisplay.displayDrawVLine(m_widget,
-                                    WidgetTypes::Display::Coord( XposNew, m_frame.y - MidLineHeight),
+                                    fpw::Display::Coord( XposNew, m_frame.y - MidLineHeight),
                                     MidLineHeight,
                                     m_frameColor);
         m_rDisplay.displayDrawVLine(m_widget, 
-                                    WidgetTypes::Display::Coord(XposOld, m_frame.y + m_frame.h),
+                                    fpw::Display::Coord(XposOld, m_frame.y + m_frame.h),
                                     MidLineHeight,
                                     ClearColor);
         m_rDisplay.displayDrawVLine(m_widget,
-                                    WidgetTypes::Display::Coord(XposNew, m_frame.y + m_frame.h),
+                                    fpw::Display::Coord(XposNew, m_frame.y + m_frame.h),
                                     MidLineHeight,
                                     m_frameColor);
     }

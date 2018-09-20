@@ -2,8 +2,7 @@
 #define VALUE_DRAWER_H
 
 #include <cstdint>
-#include "WidgetTypes.h"
-#include "Widget_Spec.h"
+#include "FpWidgetOut_Spec.h"
 
 class HALFpSim;
 
@@ -24,34 +23,34 @@ public:
     };
     TextField(  HALFpSim&                             rDisplay,
                 const DisplayWidget&                  widget,
-                const WidgetTypes::Display::Coord&    upLeftPos,
-                const WidgetTypes::Display::Size2D&   size,
-                const WidgetTypes::Display::FontId&   fontId,
-                const WidgetTypes::Display::FontSize& fontSize,
-                const WidgetTypes::Display::ColorRGB& color,
+                const fpw::Display::Coord&    upLeftPos,
+                const fpw::Display::Size2D&   size,
+                const fpw::Display::FontId&   fontId,
+                const fpw::Display::FontSize& fontSize,
+                const fpw::Display::ColorRGB& color,
                 HPlacement                            hPlacement = HPlacement::AlignLeft,
                 VPlacement                            vPlacement = VPlacement::AlignTop  );
 
     void draw(int32_t value);
-    void draw(int32_t value, const WidgetTypes::Display::ColorRGB& color);
-    void drawFieldBorder(const WidgetTypes::Display::ColorRGB& color);
-    void clear(const WidgetTypes::Display::ColorRGB& clearColor = {0,0,0});
+    void draw(int32_t value, const fpw::Display::ColorRGB& color);
+    void drawFieldBorder(const fpw::Display::ColorRGB& color);
+    void clear(const fpw::Display::ColorRGB& clearColor = {0,0,0});
 
 
 
 private:
     HALFpSim&                       m_rDisplay;
     DisplayWidget                   m_widget;
-    WidgetTypes::Display::Coord     m_upLeftPos;
-    WidgetTypes::Display::Size2D    m_size;
-    WidgetTypes::Display::FontId    m_fontId;
-    WidgetTypes::Display::FontSize  m_fontSize;
-    WidgetTypes::Display::ColorRGB  m_color;
+    fpw::Display::Coord     m_upLeftPos;
+    fpw::Display::Size2D    m_size;
+    fpw::Display::FontId    m_fontId;
+    fpw::Display::FontSize  m_fontSize;
+    fpw::Display::ColorRGB  m_color;
     HPlacement                      m_hPlacement;
     VPlacement                      m_vPlacement;
 
-    WidgetTypes::Display::Coord     m_lastStrPos;
-    WidgetTypes::Display::Size2D    m_lastStrSize;
+    fpw::Display::Coord     m_lastStrPos;
+    fpw::Display::Size2D    m_lastStrSize;
 
     void clearPrev();
 };
