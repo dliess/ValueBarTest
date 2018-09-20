@@ -1,5 +1,5 @@
-#ifndef VALUE_DRAWER_H
-#define VALUE_DRAWER_H
+#ifndef TEXT_FIELD_H
+#define TEXT_FIELD_H
 
 #include <cstdint>
 #include "FpWidgetOut_Spec.h"
@@ -21,15 +21,15 @@ public:
         AlignBottom  = 1,
         AlignCenter  = 2       
     };
-    TextField(  HALFpSim&                             rDisplay,
-                const DisplayWidget&                  widget,
+    TextField(  HALFpSim&                     rDisplay,
+                const DisplayWidget&          widget,
                 const fpw::Display::Coord&    upLeftPos,
                 const fpw::Display::Size2D&   size,
                 const fpw::Display::FontId&   fontId,
                 const fpw::Display::FontSize& fontSize,
                 const fpw::Display::ColorRGB& color,
-                HPlacement                            hPlacement = HPlacement::AlignLeft,
-                VPlacement                            vPlacement = VPlacement::AlignTop  );
+                HPlacement hPlacement = HPlacement::AlignLeft,
+                VPlacement vPlacement = VPlacement::AlignTop  );
 
     void draw(int32_t value);
     void draw(int32_t value, const fpw::Display::ColorRGB& color);
@@ -39,15 +39,15 @@ public:
 
 
 private:
-    HALFpSim&                       m_rDisplay;
-    DisplayWidget                   m_widget;
+    HALFpSim&               m_rDisplay;
+    DisplayWidget           m_widget;
     fpw::Display::Coord     m_upLeftPos;
     fpw::Display::Size2D    m_size;
     fpw::Display::FontId    m_fontId;
     fpw::Display::FontSize  m_fontSize;
     fpw::Display::ColorRGB  m_color;
-    HPlacement                      m_hPlacement;
-    VPlacement                      m_vPlacement;
+    HPlacement              m_hPlacement;
+    VPlacement              m_vPlacement;
 
     fpw::Display::Coord     m_lastStrPos;
     fpw::Display::Size2D    m_lastStrSize;

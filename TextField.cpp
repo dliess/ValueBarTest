@@ -3,15 +3,15 @@
 #include <stdio.h> // snprintf()
 
 
-TextField::TextField(   HALFpSim&                             rDisplay,
-                        const DisplayWidget&                  widget,
+TextField::TextField(   HALFpSim&                     rDisplay,
+                        const DisplayWidget&          widget,
                         const fpw::Display::Coord&    upLeftPos,
                         const fpw::Display::Size2D&   size,
                         const fpw::Display::FontId&   fontId,
                         const fpw::Display::FontSize& fontSize,
                         const fpw::Display::ColorRGB& color,
-                        HPlacement                            hPlacement,
-                        VPlacement                            vPlacement  ):
+                        HPlacement                    hPlacement,
+                        VPlacement                    vPlacement  ):
     m_rDisplay(rDisplay),
     m_widget(widget),
     m_upLeftPos(upLeftPos),
