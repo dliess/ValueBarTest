@@ -1,19 +1,15 @@
 #include "TextField.h"
-#include "HALFpSim.h"
+#include "DisplayInterface.h"
 #include <stdio.h> // snprintf()
 
 
-TextField::TextField(   HALFpSim&                     rDisplay,
-                        const DisplayWidget&          widget,
-                        const fpw::Display::Coord&    upLeftPos,
+TextField::TextField(   const fpw::Display::Coord&    upLeftPos,
                         const fpw::Display::Size2D&   size,
                         const fpw::Display::FontId&   fontId,
                         const fpw::Display::FontSize& fontSize,
                         const fpw::Display::ColorRGB& color,
                         HPlacement                    hPlacement,
                         VPlacement                    vPlacement  ):
-    m_rDisplay(rDisplay),
-    m_widget(widget),
     m_upLeftPos(upLeftPos),
     m_size(size),
     m_fontId(fontId),
@@ -25,18 +21,18 @@ TextField::TextField(   HALFpSim&                     rDisplay,
     m_lastStrSize({0,0})
     {}
 
-void TextField::draw(int32_t value)
+void TextField::draw(DisplayInterface& displayInterface, int32_t value)
 {
-    draw(value, m_color);
+    draw(displayInterface, value, m_color);
 }
 
-void TextField::draw(int32_t value, const fpw::Display::ColorRGB& color)
+void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fpw::Display::ColorRGB& color)
 {
-    clearPrev();
-    m_rDisplay.displaySetFont(m_widget, m_fontId, m_fontSize);
+    clearPrev(displayInterface);
+    displayInterface.setFont(m_fontId, m_fontSize);
     char strBuf[64];
     snprintf(strBuf, sizeof(strBuf), "%d", value);
-    fpw::Display::Size2D strSize = m_rDisplay.displayGetTextSize(m_widget, strBuf);
+    fpw::Display::Size2D strSize = displayInterface.getTextSize(strBuf);
     fpw::Display::Coord strPos;
     switch(m_hPlacement)
     {
@@ -63,37 +59,33 @@ void TextField::draw(int32_t value, const fpw::Display::ColorRGB& color)
             strPos.y = m_upLeftPos.y + ((m_size.h - (strSize.h)) / 2) - OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT;
             break;
     }
-    m_rDisplay.displayDrawText( m_widget,
-                                strPos,
+    displayInterface.drawText(  strPos,
                                 color,
                                 strBuf );
     m_lastStrPos  = strPos;                            
     m_lastStrSize = strSize;
 }
 
-void TextField::clearPrev()
+void TextField::clearPrev(DisplayInterface& displayInterface)
 {
-    m_rDisplay.displayDrawRectangle(m_widget,
-                                    fpw::Display::Coord(m_lastStrPos),
-                                    fpw::Display::Size2D(m_lastStrSize),
-                                    {0,0,0},
-                                    true);
+    displayInterface.drawRectangle(fpw::Display::Coord(m_lastStrPos),
+                                   fpw::Display::Size2D(m_lastStrSize),
+                                   {0,0,0},
+                                   true);
 }
 
-void TextField::drawFieldBorder(const fpw::Display::ColorRGB& color)
+void TextField::drawFieldBorder(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& color)
 {
-    m_rDisplay.displayDrawRectangle(m_widget,
-                                    fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                    fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
-                                    color,
-                                    false);
+    displayInterface.drawRectangle(fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                   fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+                                   color,
+                                   false);
 }
 
-void TextField::clear(const fpw::Display::ColorRGB& clearColor)
+void TextField::clear(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& clearColor)
 {
-    m_rDisplay.displayDrawRectangle(m_widget,
-                                    fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                    fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
-                                    clearColor,
-                                    true);
+    displayInterface.drawRectangle(fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                   fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+                                   clearColor,
+                                   true);
 }

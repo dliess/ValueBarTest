@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "FpWidgetOut_Spec.h"
 
-class HALFpSim;
+class DisplayInterface;
 struct Rect
 {
     Rect(uint8_t _x, uint8_t _y, uint8_t _w, uint8_t _h) : x(_x), y(_y), w(_w), h(_h){};
@@ -23,13 +23,12 @@ class ValueBarDrawer
              int16_t valueRangeMax,
              fpw::Display::ColorRGB frameColor,
              fpw::Display::ColorRGB barColorBegin,
-             fpw::Display::ColorRGB barColorEnd,
-             HALFpSim &display,
-             const DisplayWidget& widget);
+             fpw::Display::ColorRGB barColorEnd);
     void initialDraw();
-    void draw(int16_t value, int16_t modulation = 0);
+    void draw(DisplayInterface& displayInterface, int16_t value, int16_t modulation = 0);
 
   private:
+    bool m_initialDraw;
     Rect m_frame;
     Rect m_bar;
     int16_t m_valueRangeMin;
@@ -38,8 +37,6 @@ class ValueBarDrawer
     
     fpw::Display::ColorRGB m_barColorBegin;
     fpw::Display::ColorRGB m_barColorEnd;
-    HALFpSim &m_rDisplay;
-    DisplayWidget m_widget;
     static const fpw::Display::ColorRGB ClearColor;
     static const uint16_t MidLineHeight = 4;
     uint8_t m_valuePosXLast;

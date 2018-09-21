@@ -4,7 +4,7 @@
 #include <cstdint>
 #include "FpWidgetOut_Spec.h"
 
-class HALFpSim;
+class DisplayInterface;
 
 class TextField
 {
@@ -21,9 +21,7 @@ public:
         AlignBottom  = 1,
         AlignCenter  = 2       
     };
-    TextField(  HALFpSim&                     rDisplay,
-                const DisplayWidget&          widget,
-                const fpw::Display::Coord&    upLeftPos,
+    TextField(  const fpw::Display::Coord&    upLeftPos,
                 const fpw::Display::Size2D&   size,
                 const fpw::Display::FontId&   fontId,
                 const fpw::Display::FontSize& fontSize,
@@ -31,16 +29,12 @@ public:
                 HPlacement hPlacement = HPlacement::AlignLeft,
                 VPlacement vPlacement = VPlacement::AlignTop  );
 
-    void draw(int32_t value);
-    void draw(int32_t value, const fpw::Display::ColorRGB& color);
-    void drawFieldBorder(const fpw::Display::ColorRGB& color);
-    void clear(const fpw::Display::ColorRGB& clearColor = {0,0,0});
-
-
+    void draw(DisplayInterface& displayInterface, int32_t value);
+    void draw(DisplayInterface& displayInterface, int32_t value, const fpw::Display::ColorRGB& color);
+    void drawFieldBorder(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& color);
+    void clear(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& clearColor = {0,0,0});
 
 private:
-    HALFpSim&               m_rDisplay;
-    DisplayWidget           m_widget;
     fpw::Display::Coord     m_upLeftPos;
     fpw::Display::Size2D    m_size;
     fpw::Display::FontId    m_fontId;
@@ -52,7 +46,7 @@ private:
     fpw::Display::Coord     m_lastStrPos;
     fpw::Display::Size2D    m_lastStrSize;
 
-    void clearPrev();
+    void clearPrev(DisplayInterface& displayInterface);
 };
 
 #endif

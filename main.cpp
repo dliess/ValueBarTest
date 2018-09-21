@@ -23,23 +23,10 @@ int main()
     int16_t modAmplitude = 0;
     int16_t modFrequencyHz = 1;
 
-    DisplayWidget dispWidget(fpw::Display::Id::SSD1331Display, Vec2D(0,0));
-    ValueBarDrawer valueBarDrawer(10, 30, 76, 13, 0, 256, {255,255,255}, {55, 55, 55}, {0,0,255}, halGrpc, dispWidget);
-    TextField textField(halGrpc,
-                        dispWidget,
-                        fpw::Display::Coord(30, 2),
-                        fpw::Display::Size2D(40, 20),
-                        fpw::Display::FontId::FreeMonoBold,
-                        fpw::Display::FontSize::Pix18,
-                        {255,255,255},
-                        TextField::HPlacement::AlignCenter,
-                        TextField::VPlacement::AlignCenter);
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
-
-    DisplayCallback displayCbHandler(valueBarDrawer, textField, encVal, modVal);
-    EncWidget encWidget(fpw::Encoder::Id::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL));
-    fpInputs.registerEncCb(encCbHandler, encWidget);
-    fpOutputs.registerDisplayCb(displayCbHandler, dispWidget);
+    DisplayCallback displayCbHandler(encVal, modVal);
+    fpInputs.registerEncCb(encCbHandler, EncWidget(fpw::Encoder::Id::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL)));
+    fpOutputs.registerDisplayCb(displayCbHandler, DisplayWidget(fpw::Display::Id::SSD1331Display));
 
   //  std::thread t1(call_from_thread);
     int32_t t = 0;
