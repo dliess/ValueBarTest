@@ -25,14 +25,14 @@ public:
         switch(widget.coord.x)
         {
             case 0:
-                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(0,0))) )
+                if( fpw::Button::ValueType::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(0,0))) )
                 {
                     m_rEncVal += incr;
                     stayInRange<int16_t>(m_rEncVal, 0, 255);
                 }
                 break;
             case 1:
-                if( BtnValue::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(1,0))) )
+                if( fpw::Button::ValueType::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(1,0))) )
                 {
                     m_rModAmplitude += incr;
                     stayInRange<int16_t>(m_rModAmplitude, 0, 50);

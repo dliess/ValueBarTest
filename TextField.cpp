@@ -59,7 +59,8 @@ void TextField::draw(int32_t value, const fpw::Display::ColorRGB& color)
             strPos.y = m_upLeftPos.y + (m_size.h - (strSize.h));
             break;
         case VPlacement::AlignCenter:
-            strPos.y = m_upLeftPos.y + ((m_size.h - (strSize.h)) / 2) - 2;
+            static const fpw::Display::Pixel OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT = 2;
+            strPos.y = m_upLeftPos.y + ((m_size.h - (strSize.h)) / 2) - OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT;
             break;
     }
     m_rDisplay.displayDrawText( m_widget,
