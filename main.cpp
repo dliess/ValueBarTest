@@ -25,10 +25,9 @@ int main()
 
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
     DisplayCallback displayCbHandler(encVal, modVal);
-    fpInputs.registerEncCb(encCbHandler, EncWidget(fpw::Encoder::Id::Encoder, Vec2D(Vec2D::ALL, Vec2D::ALL)));
+    fpInputs.registerEncCb(encCbHandler, EncWidget(fpw::Encoder::Id::Encoder, Vec2D::ALL, Vec2D::ALL));
     fpOutputs.registerDisplayCb(displayCbHandler, DisplayWidget(fpw::Display::Id::SSD1331Display));
 
-  //  std::thread t1(call_from_thread);
     int32_t t = 0;
     const uint32_t SleepUs = 20000;
     while(true)
