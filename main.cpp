@@ -18,10 +18,10 @@ int main()
     FpInputHandler<HALFpSim> fpInputs(halGrpc);
     FpOutputHandler<HALFpSim> fpOutputs(halGrpc);
 
-    int16_t encVal = 50;
-    int16_t modVal = 0;
-    int16_t modAmplitude = 0;
-    int16_t modFrequencyHz = 1;
+    int32_t encVal = 50;
+    int32_t modVal = 0;
+    int32_t modAmplitude = 0;
+    int32_t modFrequencyHz = 1;
 
     EncCbHandler encCbHandler(fpInputs, encVal, modAmplitude, modFrequencyHz);
     DisplayCallback displayCbHandler(encVal, modVal);
@@ -36,7 +36,7 @@ int main()
         fpOutputs.render();
         usleep(SleepUs);
         t += SleepUs;
-        modVal = modAmplitude * sin(((float)modFrequencyHz/100.0)*(float)t/1000000.0);
+        modVal = modAmplitude * sin(((float)modFrequencyHz/10.0)*(float)t/1000000.0);
     }
 
 

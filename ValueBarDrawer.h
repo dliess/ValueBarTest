@@ -3,54 +3,40 @@
 
 #include <cstdint>
 #include "FpWidgetOut_Spec.h"
+#include "ValueUtils.h"
 
 class DisplayInterface;
-struct Rect
-{
-    Rect(uint8_t _x, uint8_t _y, uint8_t _w, uint8_t _h) : x(_x), y(_y), w(_w), h(_h){};
-    uint8_t x, y, w, h;
-};
-
 
 class ValueBarDrawer
 {
-  public:
-    ValueBarDrawer(uint8_t x,
-             uint8_t y,
-             uint8_t w,
-             uint8_t h,
-             int16_t valueRangeMin,
-             int16_t valueRangeMax,
-             fpw::Display::ColorRGB frameColor,
-             fpw::Display::ColorRGB barColorBegin,
-             fpw::Display::ColorRGB barColorEnd);
+public:
+    using ValueType = int32_t;
+    ValueBarDrawer(const fpw::Display::Coord&                        upLeft,
+                   const fpw::Display::Size2D&                       size,
+                   const value_utils::Range<ValueType>&              valueRange,
+                   const fpw::Display::ColorRGB&                     frameColor,
+                   const value_utils::Range<fpw::Display::ColorRGB>& barColorRange);
     void initialDraw();
-    void draw(DisplayInterface& displayInterface, int16_t value, int16_t modulation = 0);
+    void draw(DisplayInterface& displayInterface, ValueType value, ValueType modulation = 0);
 
-  private:
-    bool m_initialDraw;
-    Rect m_frame;
-    Rect m_bar;
-    int16_t m_valueRangeMin;
-    int16_t m_valueRangeMax;
-    fpw::Display::ColorRGB m_frameColor;
-    
-    fpw::Display::ColorRGB m_barColorBegin;
-    fpw::Display::ColorRGB m_barColorEnd;
-    static const fpw::Display::ColorRGB ClearColor;
-    static const uint16_t MidLineHeight = 4;
-    uint8_t m_valuePosXLast;
-    uint8_t m_modulatedValuePosXLast;
-
-    template<typename T>
-    T map(T value, T valueMin, T valueMax, T rangeMin, T rangeMax)
+private:
+    struct Frame
     {
-      T deltaVal = value - valueMin;
-      T valWholeLength = valueMax - valueMin;
-      T newWholeLength = rangeMax - rangeMin;
-      return (deltaVal * newWholeLength / valWholeLength) + rangeMin;
-    //return ( (value - valueMin) / (valueMax - valueMin) ) * (rangeMax - rangeMin) + rangeMin;
-    }
+        Frame(const fpw::Display::Coord&  upLeft_,
+              const fpw::Display::Size2D& size_) : upLeft(upLeft_),size(size_){};
+        const fpw::Display::Coord  upLeft;
+        const fpw::Display::Size2D size;
+    };
+    bool                                       m_initialDraw;
+    Frame                                      m_frame;
+    Frame                                      m_bar;
+    value_utils::Range<ValueType>              m_valueRange;
+    fpw::Display::ColorRGB                     m_frameColor;
+    value_utils::Range<fpw::Display::ColorRGB> m_barColorRange;
+    static const fpw::Display::ColorRGB        ClearColor;
+    static const fpw::Display::Pixel           MidLineHeight = 4;
+    fpw::Display::Pixel                        m_valuePosXLast;
+    fpw::Display::Pixel                        m_modulatedValuePosXLast;
 };
 
 #endif

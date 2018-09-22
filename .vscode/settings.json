@@ -53,5 +53,6 @@
         "__config": "cpp",
         "__nullptr": "cpp",
         "algorithm": "cpp"
-    }
+    },
+    "editor.detectIndentation": false
 }

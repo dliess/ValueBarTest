@@ -1,7 +1,7 @@
 #ifndef ENC_CALLBACKS_H
 #define ENC_CALLBACKS_H
 
-#include "utils.h"
+#include "ValueUtils.h"
 #include "CallbackIf_Spec.h"
 #include "FpInputHandler.h"
 #include "HALFpSim.h"
@@ -12,9 +12,9 @@ class EncCbHandler : public EncCallback
 {
 public:
     EncCbHandler(FpInputHandler<HALFpSim>& rFpInputHandler,
-                 int16_t& rEncVal,
-                 int16_t& rModAmplitude,
-                 int16_t& rModFrequencyHz) :
+                 int32_t& rEncVal,
+                 int32_t& rModAmplitude,
+                 int32_t& rModFrequencyHz) :
         m_rFpInputHandler(rFpInputHandler),
         m_rEncVal(rEncVal),
         m_rModAmplitude(rModAmplitude),
@@ -28,28 +28,28 @@ public:
                 if( fpw::Button::ValueType::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(0,0))) )
                 {
                     m_rEncVal += incr;
-                    stayInRange<int16_t>(m_rEncVal, 0, 255);
+                    value_utils::limitToRange(m_rEncVal, {0, 255});
                 }
                 break;
             case 1:
                 if( fpw::Button::ValueType::Released == m_rFpInputHandler.btnValue(BtnWidget(fpw::Button::Encoder, Vec2D(1,0))) )
                 {
                     m_rModAmplitude += incr;
-                    stayInRange<int16_t>(m_rModAmplitude, 0, 50);
+                    value_utils::limitToRange(m_rModAmplitude, {0, 50});
                 }
                 else
                 {
                     m_rModFrequencyHz += incr;
-                    stayInRange<int16_t>(m_rModFrequencyHz, 0, 5000);
+                    value_utils::limitToRange(m_rModFrequencyHz, {0, 5000});
                 }
                 break;
         } 
     }
 private:
     FpInputHandler<HALFpSim>& m_rFpInputHandler;
-    int16_t& m_rEncVal;
-    int16_t& m_rModAmplitude;
-    int16_t& m_rModFrequencyHz;
+    int32_t& m_rEncVal;
+    int32_t& m_rModAmplitude;
+    int32_t& m_rModFrequencyHz;
 };
 
 #endif
