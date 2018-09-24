@@ -29,8 +29,10 @@ public:
     void revealed(DisplayInterface& displayInterface)
     {
         m_valueBarDrawer.initialDraw();
+        displayInterface.setBypass(false);
         m_textField.clear(displayInterface);
         m_textField.drawFieldBorder(displayInterface, {255,255,255});
+        displayInterface.setBypass(true);
     } 
     void render(DisplayInterface& displayInterface)
     {

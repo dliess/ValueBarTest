@@ -33,12 +33,12 @@ void ValueBarDrawer::draw(DisplayInterface& displayInterface, ValueType value, V
     if(m_initialDraw)
     {
         m_initialDraw = false;
-        displayInterface.drawRectangle( fpw::Display::Coord(m_frame.upLeft.x, m_frame.upLeft.y-6),
-                                        fpw::Display::Size2D(m_frame.size.w, m_frame.size.h + 12),
+        displayInterface.drawRectangle( fpw::Display::Rectangle(
+                                            fpw::Display::Coord(m_frame.upLeft.x, m_frame.upLeft.y-6),
+                                            fpw::Display::Size2D(m_frame.size.w, m_frame.size.h + 12)),
                                         {0,0,0},
                                         true);
-        displayInterface.drawRectangle( fpw::Display::Coord(m_frame.upLeft.x, m_frame.upLeft.y),
-                                        fpw::Display::Size2D(m_frame.size.w, m_frame.size.h),
+        displayInterface.drawRectangle( fpw::Display::Rectangle(m_frame.upLeft, m_frame.size),
                                         m_frameColor,
                                         false);
     }

@@ -68,24 +68,25 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fp
 
 void TextField::clearPrev(DisplayInterface& displayInterface)
 {
-    displayInterface.drawRectangle(fpw::Display::Coord(m_lastStrPos),
-                                   fpw::Display::Size2D(m_lastStrSize),
+    displayInterface.drawRectangle(fpw::Display::Rectangle( m_lastStrPos, m_lastStrSize ),
                                    {0,0,0},
                                    true);
 }
 
 void TextField::drawFieldBorder(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& color)
 {
-    displayInterface.drawRectangle(fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                   fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+    displayInterface.drawRectangle(fpw::Display::Rectangle(
+                                        fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                        fpw::Display::Size2D({m_size.w + 2, m_size.h + 2})),
                                    color,
                                    false);
 }
 
 void TextField::clear(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& clearColor)
 {
-    displayInterface.drawRectangle(fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                   fpw::Display::Size2D({m_size.w + 2, m_size.h + 2}),
+    displayInterface.drawRectangle(fpw::Display::Rectangle(
+                                        fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                        fpw::Display::Size2D({m_size.w + 2, m_size.h + 2})),
                                    clearColor,
                                    true);
 }
