@@ -4,6 +4,7 @@
 #include "CallbackIf_Spec.h"
 #include "ValueBarDrawer.h"
 #include "DisaplayRenderCbIf.h"
+#include "FreeMonoBoldOblique9pt7b.h"
 
 class DisplayCallback : public DisaplayRenderCbIf
 {
@@ -17,8 +18,7 @@ public:
                          value_utils::Range<fpw::Display::ColorRGB>( {0,0,0}, {255, 155, 55}) ),
         m_textField(fpw::Display::Coord(30, 2),
                     fpw::Display::Size2D(40, 20),
-                    fpw::Display::FontId::FreeMonoBold,
-                    fpw::Display::FontSize::Pix18,
+                    &FreeMonoBoldOblique9pt7b,
                     {255,255,255},
                     TextField::HPlacement::AlignCenter,
                     TextField::VPlacement::AlignCenter),

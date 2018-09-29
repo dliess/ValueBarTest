@@ -2,18 +2,15 @@
 #include "DisplayInterface.h"
 #include <stdio.h> // snprintf()
 
-
 TextField::TextField(   const fpw::Display::Coord&    upLeftPos,
                         const fpw::Display::Size2D&   size,
-                        const fpw::Display::FontId&   fontId,
-                        const fpw::Display::FontSize& fontSize,
+                        const GFXfont*                pFont,
                         const fpw::Display::ColorRGB& color,
                         HPlacement                    hPlacement,
                         VPlacement                    vPlacement  ):
     m_upLeftPos(upLeftPos),
     m_size(size),
-    m_fontId(fontId),
-    m_fontSize(fontSize),
+    m_pFont(pFont),
     m_color(color),
     m_hPlacement(hPlacement),
     m_vPlacement(vPlacement),
@@ -29,10 +26,10 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value)
 void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fpw::Display::ColorRGB& color)
 {
     clearPrev(displayInterface);
-    displayInterface.setFont(m_fontId, m_fontSize);
+    displayInterface.setFont(m_pFont);
     char strBuf[64];
     snprintf(strBuf, sizeof(strBuf), "%d", value);
-    fpw::Display::Size2D strSize = displayInterface.getTextSize(strBuf);
+    fpw::Display::Size2D strSize = displayInterface.getTextSize(strBuf, nullptr);
     fpw::Display::Coord strPos;
     switch(m_hPlacement)
     {
