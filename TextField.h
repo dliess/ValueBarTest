@@ -24,7 +24,7 @@ public:
     };
     TextField(  const fpw::Display::Coord&    upLeftPos,
                 const fpw::Display::Size2D&   size,
-                const GFXfont*                pFont,
+                const GFXfont&                rFont,
                 const fpw::Display::ColorRGB& color,
                 HPlacement hPlacement = HPlacement::AlignLeft,
                 VPlacement vPlacement = VPlacement::AlignTop  );
@@ -37,7 +37,7 @@ public:
 private:
     fpw::Display::Coord     m_upLeftPos;
     fpw::Display::Size2D    m_size;
-    const GFXfont*          m_pFont;
+    const GFXfont&          m_rFont;
     fpw::Display::ColorRGB  m_color;
     HPlacement              m_hPlacement;
     VPlacement              m_vPlacement;

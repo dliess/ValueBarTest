@@ -4,13 +4,13 @@
 
 TextField::TextField(   const fpw::Display::Coord&    upLeftPos,
                         const fpw::Display::Size2D&   size,
-                        const GFXfont*                pFont,
+                        const GFXfont&                rFont,
                         const fpw::Display::ColorRGB& color,
                         HPlacement                    hPlacement,
                         VPlacement                    vPlacement  ):
     m_upLeftPos(upLeftPos),
     m_size(size),
-    m_pFont(pFont),
+    m_rFont(rFont),
     m_color(color),
     m_hPlacement(hPlacement),
     m_vPlacement(vPlacement),
@@ -26,7 +26,7 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value)
 void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fpw::Display::ColorRGB& color)
 {
     clearPrev(displayInterface);
-    displayInterface.setFont(m_pFont);
+    displayInterface.setFont(m_rFont);
     char strBuf[64];
     snprintf(strBuf, sizeof(strBuf), "%d", value);
     fpw::Display::Size2D strSize = displayInterface.getTextSize(strBuf, nullptr);
