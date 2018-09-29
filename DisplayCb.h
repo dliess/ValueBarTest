@@ -29,14 +29,15 @@ public:
     void revealed(DisplayInterface& displayInterface)
     {
         m_valueBarDrawer.initialDraw();
-        displayInterface.setBypass(false);
         m_textField.clear(displayInterface);
+        displayInterface.setBypass(false);
         m_textField.drawFieldBorder(displayInterface, {255,255,255});
         displayInterface.setBypass(true);
     } 
     void render(DisplayInterface& displayInterface)
     {
         m_valueBarDrawer.draw(displayInterface, m_rValue, m_rModulation);
+
         if(m_lastValue != m_rValue)
         {
             m_textField.draw(displayInterface, m_rValue, {100, 0, static_cast<uint8_t>(m_rValue)});
