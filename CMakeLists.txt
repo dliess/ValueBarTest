@@ -4,7 +4,7 @@ set (CMAKE_CXX_STANDARD 11)
 
 project(ValueBarTest C CXX)
 
-add_subdirectory(FrontPanelIO/c++)
+add_subdirectory(FrontPanelIO)
 
 add_executable(valueBarTest
     main.cpp
