@@ -25,22 +25,26 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value)
 
 void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fpw::Display::ColorRGB& color)
 {
-    clearPrev(displayInterface);
-    displayInterface.setFont(m_rFont);
-    char strBuf[64];
-    snprintf(strBuf, sizeof(strBuf), "%d", value);
-    fpw::Display::Size2D strSize = displayInterface.getTextSize(strBuf, nullptr);
+    //clearPrev(displayInterface);
+    displayInterface.setFont(m_rFont, 1);
+    std::string txt = "q";
+    txt += std::to_string(value);
+    txt += "g";
+    fpw::Display::Size2D strSize = displayInterface.getRenderedTextSize(txt, nullptr);
     fpw::Display::Coord strPos;
+    const int32_t widthDiff = static_cast<int32_t>(m_size.w) - static_cast<int32_t>(strSize.w);
+    const int32_t heightDiff = static_cast<int32_t>(m_size.h) - static_cast<int32_t>(strSize.h);
+
     switch(m_hPlacement)
     {
         case HPlacement::AlignLeft:
             strPos.x = m_upLeftPos.x;
             break;
         case HPlacement::AlignRight:
-            strPos.x = m_upLeftPos.x + (m_size.w - strSize.w);
+            strPos.x = m_upLeftPos.x + widthDiff;
             break;
         case HPlacement::AlignCenter:
-            strPos.x = m_upLeftPos.x + ((m_size.w - strSize.w) / 2);
+            strPos.x = m_upLeftPos.x + (widthDiff / 2);
             break;
     }
     switch(m_vPlacement)
@@ -49,16 +53,14 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fp
             strPos.y = m_upLeftPos.y;
             break;
         case VPlacement::AlignBottom:
-            strPos.y = m_upLeftPos.y + (m_size.h - (strSize.h));
+            strPos.y = m_upLeftPos.y + heightDiff;
             break;
         case VPlacement::AlignCenter:
-            static const fpw::Display::Pixel OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT = 2;
-            strPos.y = m_upLeftPos.y + ((m_size.h - (strSize.h)) / 2) - OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT;
+            static const fpw::Display::Pixel OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT = 0;
+            strPos.y = m_upLeftPos.y + (heightDiff / 2) - OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT;
             break;
     }
-    displayInterface.drawText(  strPos,
-                                color,
-                                strBuf );
+    displayInterface.drawText(strPos, color, txt);
     m_lastStrPos  = strPos;                            
     m_lastStrSize = strSize;
 }
