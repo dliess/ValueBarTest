@@ -1,5 +1,4 @@
 #include "ValueBarDrawer.h"
-#include "HALFpSim.h"
 #include "DisplayInterface.h"
 
 #include <iostream>
