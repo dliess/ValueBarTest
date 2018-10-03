@@ -35,16 +35,20 @@ public:
         displayInterface.setFrameBufRendering(false);
         displayInterface.drawRectangle({ fpw::Display::Coord(0,0), fpw::Display::Size2D(96, 64) }, {0,0,0}, true);
         m_valueBarDrawer.initialDraw();
-        m_textField.drawFieldBorder(displayInterface, {255,255,255});
     } 
     void renderDisplays(DisplayInterface& displayInterface)
     {
         m_valueBarDrawer.draw(displayInterface, m_rValue, m_rModulation);
 
-        std::string txt = std::to_string(m_rValue);
+//        std::string txt = std::to_string(m_rValue);
+        std::string txt = "Google";
+
         displayInterface.setFrameBufRendering(true);
-        m_textField.drawFieldBorder(displayInterface, {255,255,255});
-        fpw::Display::ColorRGB txtColor(100, 0, static_cast<uint8_t>(m_rValue));
+        //m_textField.drawFieldBorder(displayInterface, {255,255,255});
+        uint8_t colCompR = static_cast<uint8_t>(m_rValue);
+        uint8_t colCompG = static_cast<uint8_t>( (m_rValue * 155) / 255 );
+        uint8_t colCompB = static_cast<uint8_t>( (m_rValue * 55) / 255 );
+        fpw::Display::ColorRGB txtColor(colCompR, colCompG, colCompB);
 
         m_textField.setHPlacement(TextField::HPlacement::AlignCenter);
         m_textField.setVPlacement(TextField::VPlacement::AlignCenter);

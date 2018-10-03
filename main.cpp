@@ -39,6 +39,7 @@ int main()
         modVal = modAmplitude * sin(((float)modFrequencyHz/10.0)*(float)t/1000000.0);
     }
 
+    fpOutputs.unregisterDisplayCb(displayCbHandler, DisplayWidget(fpw::Display::Id::SSD1331Display));
 
     return 0;
 }
