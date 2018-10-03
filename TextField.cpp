@@ -30,7 +30,9 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fp
     std::string txt = "q";
     txt += std::to_string(value);
     txt += "g";
-    fpw::Display::Size2D strSize = displayInterface.getRenderedTextSize(txt, nullptr);
+    fpw::Display::Size2D    strSize;
+    fpw::Display::Offset2D  strOffset;
+    displayInterface.getRenderedTextSize(txt, nullptr, strSize, strOffset);
     fpw::Display::Coord strPos;
     const int32_t widthDiff = static_cast<int32_t>(m_size.w) - static_cast<int32_t>(strSize.w);
     const int32_t heightDiff = static_cast<int32_t>(m_size.h) - static_cast<int32_t>(strSize.h);
@@ -50,16 +52,16 @@ void TextField::draw(DisplayInterface& displayInterface, int32_t value, const fp
     switch(m_vPlacement)
     {
         case VPlacement::AlignTop:
-            strPos.y = m_upLeftPos.y;
+            strPos.y = m_upLeftPos.y + strSize.h;
             break;
         case VPlacement::AlignBottom:
-            strPos.y = m_upLeftPos.y + heightDiff;
+            strPos.y = m_upLeftPos.y + m_size.h - 1;
             break;
         case VPlacement::AlignCenter:
-            static const fpw::Display::Pixel OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT = 0;
-            strPos.y = m_upLeftPos.y + (heightDiff / 2) - OFFSET_BECAUSE_OF_EMPTY_HEADSPACE_IN_FONT;
+            strPos.y = m_upLeftPos.y + (heightDiff / 2) + strSize.h;
             break;
     }
+    strPos = {strPos.x - strOffset.x, strPos.y - strOffset.y};
     displayInterface.drawText(strPos, color, txt);
     m_lastStrPos  = strPos;                            
     m_lastStrSize = strSize;

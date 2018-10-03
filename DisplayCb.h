@@ -19,7 +19,7 @@ public:
                          value_utils::Range<fpw::Display::ColorRGB>( {0,0,0}, {255, 155, 55}) ),
         m_textField(fpw::Display::Coord(30, 2),
                     fpw::Display::Size2D(40, 34),
-                    FreeMono9pt7b,
+                    DefaultMonospace,
                     {255,255,255},
                     TextField::HPlacement::AlignCenter,
                     TextField::VPlacement::AlignCenter),
