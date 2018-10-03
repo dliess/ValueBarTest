@@ -38,12 +38,13 @@ public:
 
     void setHPlacement(HPlacement hPlacement);
     void setVPlacement(VPlacement vPlacement);
+    void setFont(const GFXfont& font, uint8_t scale = 1);
 
 
 private:
     fpw::Display::Coord     m_upLeftPos;
     fpw::Display::Size2D    m_size;
-    const GFXfont&          m_rFont;
+    const GFXfont*          m_pFont;
     uint8_t                 m_fontScaleFactor;
     fpw::Display::ColorRGB  m_color;
     HPlacement              m_hPlacement;

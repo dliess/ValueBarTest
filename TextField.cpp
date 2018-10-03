@@ -11,7 +11,7 @@ TextField::TextField(   const fpw::Display::Coord&    upLeftPos,
                         VPlacement                    vPlacement  ):
     m_upLeftPos(upLeftPos),
     m_size(size),
-    m_rFont(rFont),
+    m_pFont(&rFont),
     m_fontScaleFactor(fontScaleFactor),
     m_color(color),
     m_hPlacement(hPlacement),
@@ -28,7 +28,7 @@ void TextField::draw(DisplayInterface& displayInterface, const std::string& txt)
 void TextField::draw(DisplayInterface& displayInterface, const std::string& txt, const fpw::Display::ColorRGB& color)
 {
     //clearPrev(displayInterface);
-    displayInterface.setFont(m_rFont, m_fontScaleFactor);
+    displayInterface.setFont(*m_pFont, m_fontScaleFactor);
     fpw::Display::Size2D    strSize;
     fpw::Display::Offset2D  strOffset;
     displayInterface.getRenderedTextSize(txt, nullptr, strSize, strOffset);
@@ -100,4 +100,10 @@ void TextField::setHPlacement(HPlacement hPlacement)
 void TextField::setVPlacement(VPlacement vPlacement)
 {
     m_vPlacement = vPlacement;
+}
+
+void TextField::setFont(const GFXfont& font, uint8_t scale)
+{
+    m_pFont = &font;
+    m_fontScaleFactor = scale;
 }
