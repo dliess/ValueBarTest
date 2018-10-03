@@ -9,6 +9,8 @@ add_subdirectory(GraphicWidgets)
 
 
 add_executable(valueBarTest
+    EncCallbacks.cpp
+    DisplayCb.cpp
     main.cpp
 )
 
