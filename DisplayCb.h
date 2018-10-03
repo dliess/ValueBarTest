@@ -37,7 +37,7 @@ public:
         m_valueBarDrawer.initialDraw();
         m_textField.drawFieldBorder(displayInterface, {255,255,255});
     } 
-    void render(DisplayInterface& displayInterface)
+    void renderDisplays(DisplayInterface& displayInterface)
     {
         m_valueBarDrawer.draw(displayInterface, m_rValue, m_rModulation);
 

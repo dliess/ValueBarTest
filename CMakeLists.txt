@@ -12,5 +12,6 @@ add_executable(valueBarTest
     TextField.cpp)
 target_link_libraries(valueBarTest 
     HALFpSim
-    FPIOHandler
+    FpInputHandler
+    FpDisplayHandler
 )

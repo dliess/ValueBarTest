@@ -1,6 +1,6 @@
 #include "HALFpSim.h"
 #include "FpInputHandler.h"
-#include "FpOutputHandler.h"
+#include "FpDisplayHandler.h"
 #include "CallbackIf_Spec.h"
 #include "Vector2D.h"
 #include "ValueBarDrawer.h"
@@ -16,7 +16,7 @@ int main()
 {
     HALFpSim halGrpc("localhost:50051");
     FpInputHandler<HALFpSim> fpInputs(halGrpc);
-    FpOutputHandler<HALFpSim> fpOutputs(halGrpc);
+    FpDisplayHandler<HALFpSim> fpOutputs(halGrpc);
 
     int32_t encVal = 50;
     int32_t modVal = 0;
@@ -33,7 +33,7 @@ int main()
     while(true)
     {
         fpInputs.poll();
-        fpOutputs.render();
+        fpOutputs.renderDisplays();
         usleep(SleepUs);
         t += SleepUs;
         modVal = modAmplitude * sin(((float)modFrequencyHz/10.0)*(float)t/1000000.0);
