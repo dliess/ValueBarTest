@@ -6,7 +6,7 @@
 #include "Font.h"
 #include <string>
 
-class DisplayInterface;
+class RenderIf;
 
 class TextField
 {
@@ -31,10 +31,10 @@ public:
                 HPlacement hPlacement = HPlacement::AlignLeft,
                 VPlacement vPlacement = VPlacement::AlignTop  );
 
-    void draw(DisplayInterface& displayInterface, const std::string& txt);
-    void draw(DisplayInterface& displayInterface, const std::string& txt, const fpw::Display::ColorRGB& color);
-    void drawFieldBorder(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& color);
-    void clear(DisplayInterface& displayInterface, const fpw::Display::ColorRGB& clearColor = {0,0,0});
+    void draw(RenderIf& r, const std::string& txt);
+    void draw(RenderIf& r, const std::string& txt, const fpw::Display::ColorRGB& color);
+    void drawFieldBorder(RenderIf& r, const fpw::Display::ColorRGB& color);
+    void clear(RenderIf& r, const fpw::Display::ColorRGB& clearColor = {0,0,0});
 
     void setHPlacement(HPlacement hPlacement);
     void setVPlacement(VPlacement vPlacement);
@@ -53,7 +53,7 @@ private:
     fpw::Display::Coord     m_lastStrPos;
     fpw::Display::Size2D    m_lastStrSize;
 
-    void clearPrev(DisplayInterface& displayInterface);
+    void clearPrev(RenderIf& r);
 };
 
 #endif

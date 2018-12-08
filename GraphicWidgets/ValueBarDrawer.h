@@ -5,7 +5,7 @@
 #include "FpWidgetOut_Spec.h"
 #include "ValueUtils.h"
 
-class DisplayInterface;
+class RenderIf;
 
 class ValueBarDrawer
 {
@@ -17,7 +17,7 @@ public:
                    const fpw::Display::ColorRGB&                     frameColor,
                    const value_utils::Range<fpw::Display::ColorRGB>& barColorRange);
     void initialDraw();
-    void draw(DisplayInterface& displayInterface, ValueType value, ValueType modulation = 0);
+    void draw(RenderIf& r, ValueType value, ValueType modulation = 0);
 
 private:
     struct Frame

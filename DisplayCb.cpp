@@ -2,7 +2,8 @@
 #include "DefaultMonospace.h"
 #include "FreeMono9pt7b.h"
 #include "FreeSansOblique9pt7b.h"
-#include "DisplayInterface.h"
+#include "DisplayRenderInterface.h"
+#include "RenderIf.h"
 
 #include <string>
 
@@ -25,22 +26,22 @@ DisplayCallback::DisplayCallback(int32_t& rValue,
         m_rModulation(rModulation)
         {}
 
-void DisplayCallback::revealed(DisplayInterface& displayInterface)
+void DisplayCallback::revealed(RenderIf& r)
 {
-    displayInterface.setFrameBufRendering(false);
-    displayInterface.drawRectangle({ fpw::Display::Coord(0,0), fpw::Display::Size2D(96, 64) }, {0,0,0}, true);
+    r.setFrameBufRendering(false);
+    r.drawRectangle({ fpw::Display::Coord(0,0), fpw::Display::Size2D(96, 64) }, {0,0,0}, true);
     m_valueBarDrawer.initialDraw();
 }
 
-void DisplayCallback::renderDisplays(DisplayInterface& displayInterface)
+void DisplayCallback::renderDisplays(RenderIf& r)
 {
-    m_valueBarDrawer.draw(displayInterface, m_rValue, m_rModulation);
+    m_valueBarDrawer.draw(r, m_rValue, m_rModulation);
 
     std::string txt = "SSD-1331";
     std::string valtxt = std::to_string(m_rValue);
 
-    displayInterface.setFrameBufRendering(true);
-    //m_textField.drawFieldBorder(displayInterface, {255,255,255});
+    r.setFrameBufRendering(true);
+    //m_textField.drawFieldBorder(r, {255,255,255});
     auto val = m_rValue + m_rModulation;
     uint8_t colCompR = static_cast<uint8_t>(val);
     uint8_t colCompG = static_cast<uint8_t>( (val * 155) / 255 );
@@ -50,26 +51,26 @@ void DisplayCallback::renderDisplays(DisplayInterface& displayInterface)
     m_textField.setFont(FreeSansOblique9pt7b);
     m_textField.setHPlacement(TextField::HPlacement::AlignCenter);
     m_textField.setVPlacement(TextField::VPlacement::AlignTop);
-    m_textField.draw(displayInterface, txt, txtColor);
+    m_textField.draw(r, txt, txtColor);
 
     m_textField.setFont(DefaultMonospace, 2);
     m_textField.setHPlacement(TextField::HPlacement::AlignCenter);
     m_textField.setVPlacement(TextField::VPlacement::AlignBottom);
-    m_textField.draw(displayInterface, valtxt, {255,255,255});
+    m_textField.draw(r, valtxt, {255,255,255});
 
 /*
     m_textField.setHPlacement(TextField::HPlacement::AlignLeft);
     m_textField.setVPlacement(TextField::VPlacement::AlignTop);
-    m_textField.draw(displayInterface, txt, txtColor);
+    m_textField.draw(r, txt, txtColor);
     m_textField.setHPlacement(TextField::HPlacement::AlignLeft);
     m_textField.setVPlacement(TextField::VPlacement::AlignBottom);
-    m_textField.draw(displayInterface, txt, txtColor);
+    m_textField.draw(r, txt, txtColor);
     m_textField.setHPlacement(TextField::HPlacement::AlignRight);
     m_textField.setVPlacement(TextField::VPlacement::AlignBottom);
-    m_textField.draw(displayInterface, txt, txtColor);
+    m_textField.draw(r, txt, txtColor);
     m_textField.setHPlacement(TextField::HPlacement::AlignRight);
     m_textField.setVPlacement(TextField::VPlacement::AlignTop);
-    m_textField.draw(displayInterface, txt, txtColor);
+    m_textField.draw(r, txt, txtColor);
 */
-    displayInterface.setFrameBufRendering(false);
+    r.setFrameBufRendering(false);
 }

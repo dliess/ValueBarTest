@@ -10,8 +10,8 @@ class DisplayCallback : public DisaplayRenderCbIf
 public:
     DisplayCallback(int32_t& rValue,
                     int32_t& rModulation);
-    void revealed(DisplayInterface& displayInterface);
-    void renderDisplays(DisplayInterface& displayInterface);
+    void revealed(RenderIf& r);
+    void renderDisplays(RenderIf& r);
 
 private:
     ValueBarDrawer  m_valueBarDrawer;
