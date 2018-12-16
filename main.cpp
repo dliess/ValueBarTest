@@ -15,8 +15,8 @@
 int main()
 {
     HALFpSim halGrpc("localhost:50051");
-    FpInputHandler<HALFpSim> fpInputs(halGrpc);
-    FpDisplayHandler<HALFpSim> fpDisplays(halGrpc);
+    FpInputHandler fpInputs(halGrpc);
+    FpDisplayHandler fpDisplays(halGrpc);
 
     int32_t encVal = 50;
     int32_t modVal = 0;

@@ -11,13 +11,13 @@
 class EncCbHandler : public EncCallback
 {
 public:
-    EncCbHandler(FpInputHandler<HALFpSim>& rFpInputHandler,
+    EncCbHandler(FpInputHandler& rFpInputHandler,
                  int32_t& rEncVal,
                  int32_t& rModAmplitude,
                  int32_t& rModFrequencyHz);
     virtual void valueChangedCb(const  fpw::Encoder::ValueType& incr, const EncWidget& widget);
 private:
-    FpInputHandler<HALFpSim>& m_rFpInputHandler;
+    FpInputHandler& m_rFpInputHandler;
     int32_t& m_rEncVal;
     int32_t& m_rModAmplitude;
     int32_t& m_rModFrequencyHz;

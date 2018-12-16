@@ -4,6 +4,7 @@
 #include <cstdint>
 #include "FpWidgetOut_Spec.h"
 #include "Font.h"
+#include "ColorRGB.h"
 #include <string>
 
 class RenderIf;
@@ -23,18 +24,18 @@ public:
         AlignBottom  = 1,
         AlignCenter  = 2       
     };
-    TextField(  const fpw::Display::Coord&    upLeftPos,
-                const fpw::Display::Size2D&   size,
+    TextField(  const gfxbase::Coord&    upLeftPos,
+                const gfxbase::Size2D&   size,
                 const GFXfont&                rFont,
                 uint8_t                       fontScaleFactor,
-                const fpw::Display::ColorRGB& color,
+                const ColorRGB& color,
                 HPlacement hPlacement = HPlacement::AlignLeft,
                 VPlacement vPlacement = VPlacement::AlignTop  );
 
     void draw(RenderIf& r, const std::string& txt);
-    void draw(RenderIf& r, const std::string& txt, const fpw::Display::ColorRGB& color);
-    void drawFieldBorder(RenderIf& r, const fpw::Display::ColorRGB& color);
-    void clear(RenderIf& r, const fpw::Display::ColorRGB& clearColor = {0,0,0});
+    void draw(RenderIf& r, const std::string& txt, const ColorRGB& color);
+    void drawFieldBorder(RenderIf& r, const ColorRGB& color);
+    void clear(RenderIf& r, const ColorRGB& clearColor = {0,0,0});
 
     void setHPlacement(HPlacement hPlacement);
     void setVPlacement(VPlacement vPlacement);
@@ -42,16 +43,16 @@ public:
 
 
 private:
-    fpw::Display::Coord     m_upLeftPos;
-    fpw::Display::Size2D    m_size;
+    gfxbase::Coord     m_upLeftPos;
+    gfxbase::Size2D    m_size;
     const GFXfont*          m_pFont;
     uint8_t                 m_fontScaleFactor;
-    fpw::Display::ColorRGB  m_color;
+    ColorRGB  m_color;
     HPlacement              m_hPlacement;
     VPlacement              m_vPlacement;
 
-    fpw::Display::Coord     m_lastStrPos;
-    fpw::Display::Size2D    m_lastStrSize;
+    gfxbase::Coord     m_lastStrPos;
+    gfxbase::Size2D    m_lastStrSize;
 
     void clearPrev(RenderIf& r);
 };

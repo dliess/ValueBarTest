@@ -1,6 +1,6 @@
 #include "EncCallbacks.h"
 
-EncCbHandler::EncCbHandler(FpInputHandler<HALFpSim>& rFpInputHandler,
+EncCbHandler::EncCbHandler(FpInputHandler& rFpInputHandler,
                 int32_t& rEncVal,
                 int32_t& rModAmplitude,
                 int32_t& rModFrequencyHz) :

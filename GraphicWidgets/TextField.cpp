@@ -4,11 +4,11 @@
 #include "RenderIf.h"
 
 
-TextField::TextField(   const fpw::Display::Coord&    upLeftPos,
-                        const fpw::Display::Size2D&   size,
+TextField::TextField(   const gfxbase::Coord&    upLeftPos,
+                        const gfxbase::Size2D&   size,
                         const GFXfont&                rFont,
                         uint8_t                       fontScaleFactor,
-                        const fpw::Display::ColorRGB& color,
+                        const ColorRGB& color,
                         HPlacement                    hPlacement,
                         VPlacement                    vPlacement  ):
     m_upLeftPos(upLeftPos),
@@ -27,14 +27,14 @@ void TextField::draw(RenderIf& r, const std::string& txt)
     draw(r, txt, m_color);
 }
 
-void TextField::draw(RenderIf& r, const std::string& txt, const fpw::Display::ColorRGB& color)
+void TextField::draw(RenderIf& r, const std::string& txt, const ColorRGB& color)
 {
     //clearPrev(r);
     r.setFont(*m_pFont, m_fontScaleFactor);
-    fpw::Display::Size2D    strSize;
-    fpw::Display::Offset2D  strOffset;
+    gfxbase::Size2D    strSize;
+    gfxbase::Offset2D  strOffset;
     r.getRenderedTextSize(txt, nullptr, strSize, strOffset);
-    fpw::Display::Coord txtMidLinePos;
+    gfxbase::Coord txtMidLinePos;
     const int32_t widthDiff = static_cast<int32_t>(m_size.w) - static_cast<int32_t>(strSize.w);
     const int32_t heightDiff = static_cast<int32_t>(m_size.h) - static_cast<int32_t>(strSize.h);
 
@@ -71,25 +71,25 @@ void TextField::draw(RenderIf& r, const std::string& txt, const fpw::Display::Co
 
 void TextField::clearPrev(RenderIf& r)
 {
-    r.drawRectangle(fpw::Display::Rectangle( m_lastStrPos, m_lastStrSize ),
+    r.drawRectangle(gfxbase::Rectangle( m_lastStrPos, m_lastStrSize ),
                                    {0,0,0},
                                    true);
 }
 
-void TextField::drawFieldBorder(RenderIf& r, const fpw::Display::ColorRGB& color)
+void TextField::drawFieldBorder(RenderIf& r, const ColorRGB& color)
 {
-    r.drawRectangle(fpw::Display::Rectangle(
-                                        fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                        fpw::Display::Size2D({m_size.w + 2, m_size.h + 2})),
+    r.drawRectangle(gfxbase::Rectangle(
+                                        gfxbase::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                        gfxbase::Size2D({m_size.w + 2, m_size.h + 2})),
                                    color,
                                    false);
 }
 
-void TextField::clear(RenderIf& r, const fpw::Display::ColorRGB& clearColor)
+void TextField::clear(RenderIf& r, const ColorRGB& clearColor)
 {
-    r.drawRectangle(fpw::Display::Rectangle(
-                                        fpw::Display::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
-                                        fpw::Display::Size2D({m_size.w + 2, m_size.h + 2})),
+    r.drawRectangle(gfxbase::Rectangle(
+                                        gfxbase::Coord({m_upLeftPos.x - 1, m_upLeftPos.y - 1}),
+                                        gfxbase::Size2D({m_size.w + 2, m_size.h + 2})),
                                    clearColor,
                                    true);
 }
